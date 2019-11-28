@@ -21,10 +21,10 @@ impl Engine {
         self.context.put_image_data(scene, 0.0, 0.0);
         self
     }
-    pub fn new(id: String) -> Engine {
+    pub fn new(id: &str) -> Engine {
         let document = web_sys::window().unwrap().document().unwrap();
         let canvas: web_sys::HtmlCanvasElement = document
-            .get_element_by_id("canvas")
+            .get_element_by_id(id)
             .unwrap()
             .dyn_into::<web_sys::HtmlCanvasElement>()
             .map_err(|_| ())
@@ -38,7 +38,7 @@ impl Engine {
         Engine {
             width: canvas.width(),
             height: canvas.height(),
-            id: id,
+            id: String::from(id),
             canvas: canvas,
             context: context,
         }
