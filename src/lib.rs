@@ -1,5 +1,8 @@
 mod engine;
+mod scene;
+
 use engine::Engine;
+use scene::Scene;
 use std::f64;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
@@ -18,8 +21,8 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 #[wasm_bindgen(start)]
 pub fn main_js() -> Result<(), JsValue> {
     let engine = Engine::new("canvas");
-
-    let image = ImageData::new_with_u8_clamped_array_and_sh(Clamped(&mut [100; 40000]), 100, 100)?;
-    engine.render(&image);
+    let mut scene = Scene::new(100, 100);
+    scene.clear();
+    engine.render(scene.image());
     Ok(())
 }
