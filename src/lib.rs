@@ -23,6 +23,6 @@ pub fn main_js() -> Result<(), JsValue> {
     let engine = Engine::new("canvas");
     let mut scene = Scene::new(100, 100);
     scene.clear();
-    engine.render(scene.image());
+    engine.render(&scene.image());
     Ok(())
 }

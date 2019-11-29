@@ -15,13 +15,8 @@ pub struct Engine {
 }
 
 impl Engine {
-    pub fn render(&self, img: &mut Vec<u8>) -> &self::Engine {
-        self.context.put_image_data(
-            &ImageData::new_with_u8_clamped_array_and_sh(Clamped(img), self.width, self.height)
-                .unwrap(),
-            0.0,
-            0.0,
-        );
+    pub fn render(&self, img: &ImageData) -> &self::Engine {
+        self.context.put_image_data(img, 0.0, 0.0);
         self
     }
     pub fn new(id: &str) -> Engine {
