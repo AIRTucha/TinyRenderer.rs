@@ -48,7 +48,7 @@ impl Scene {
             pixel_count: pixel_count,
             data_size: data_size,
             image: vec![0; data_size],
-            z_buffer: Vec::with_capacity(width),
+            z_buffer: vec![vec![-100.0; height]; width],
         }
     }
 }
