@@ -1,7 +1,10 @@
 mod engine;
+mod obj;
+mod run;
 
 use engine::Engine;
 use engine::Scene;
+use obj::get;
 use std::f64;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
@@ -10,7 +13,7 @@ use web_sys::ImageData;
 use web_sys::*;
 
 use std::iter::FromIterator;
-
+#[macro_use]
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
 // allocator.
 //
@@ -30,6 +33,10 @@ pub fn main_js() -> Result<(), JsValue> {
     // }
     diamond(100, &mut scene);
     engine.render(&mut scene);
+    unsafe {
+        run!(get());
+    }
+
     Ok(())
 }
 
