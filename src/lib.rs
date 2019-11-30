@@ -1,8 +1,7 @@
 mod engine;
-mod scene;
 
 use engine::Engine;
-use scene::Scene;
+use engine::Scene;
 use std::f64;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
@@ -30,16 +29,9 @@ pub fn main_js() -> Result<(), JsValue> {
     //     scene.dot(x, 50, 0.0, 255, 0, 0, 255)
     // }
     diamond(100, &mut scene);
-    engine.render(&scene.image());
+    engine.render(&mut scene);
     Ok(())
 }
-
-// fn main() {
-//     let size = 71;
-//     let mut canvas = vec![vec!['-'; 100]; size];
-//     diamond(&mut canvas);
-//     draw_figure(canvas);
-// }
 
 fn diamond(size: usize, scene: &mut Scene) {
     for row in 0..size {
