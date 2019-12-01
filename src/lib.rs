@@ -38,7 +38,9 @@ pub fn main_js() -> Result<(), JsValue> {
     engine.render(&mut scene);
     run!(async {
         let resp = Obj::new(&"obj/african_head/african_head.obj").await;
-        console::log_1(&JsValue::from(resp.vertices[0].x.to_string()));
+        resp.for_each_polygon(|ver1, ver2, ver3| {
+            console::log_1(&JsValue::from(ver1.vertex.x.to_string()))
+        })
     });
     Ok(())
 }

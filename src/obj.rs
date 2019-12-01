@@ -1,9 +1,5 @@
-use core::option::Option;
-use js_sys::Promise;
-use serde::{Deserialize, Serialize};
-use wasm_bindgen::prelude::*;
-use wasm_bindgen::JsCast;
-use web_sys::{Request, RequestInit, RequestMode, Response};
+use crate::common::{Indices, Vec2, Vec3, Vertex};
+use crate::get::get;
 
 use web_sys::console;
 /// A struct to hold some data from the github Branch API.
@@ -120,6 +116,27 @@ impl Obj {
             normals: parse_vn(&raw_obj),
             textures: parse_vt(&raw_obj),
             faces: parse_f(&raw_obj),
+        }
+    }
+    pub fn for_each_polygon(&self, action: fn(Vertex, Vertex, Vertex) -> ()) {
+        for (fst, snd, trd) in &self.faces {
+            action(
+                Vertex::new(
+                    &self.vertices[fst.vertex],
+                    &self.normals[fst.normal],
+                    &self.textures[fst.texture],
+                ),
+                Vertex::new(
+                    &self.vertices[snd.vertex],
+                    &self.normals[snd.normal],
+                    &self.textures[snd.texture],
+                ),
+                Vertex::new(
+                    &self.vertices[trd.vertex],
+                    &self.normals[trd.normal],
+                    &self.textures[trd.texture],
+                ),
+            )
         }
     }
 }

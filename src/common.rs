@@ -68,14 +68,14 @@ impl Indices {
         }
     }
 }
-pub struct Vertex {
-    pub vertex: Vec3,
-    pub normal: Vec3,
-    pub texture: Vec2,
+pub struct Vertex<'a> {
+    pub vertex: &'a Vec3,
+    pub normal: &'a Vec3,
+    pub texture: &'a Vec2,
 }
 
-impl Vertex {
-    pub fn new(vertex: Vec3, normal: Vec3, texture: Vec2) -> Vertex {
+impl<'a> Vertex<'a> {
+    pub fn new(vertex: &'a Vec3, normal: &'a Vec3, texture: &'a Vec2) -> Vertex<'a> {
         Vertex {
             vertex: vertex,
             normal: normal,
