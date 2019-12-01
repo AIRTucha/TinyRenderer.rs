@@ -1,4 +1,4 @@
-use crate::common::{Indices, Vec2, Vec3};
+use crate::common::{Indices, Vec2, Vec3, Vertex};
 use crate::get::get;
 
 pub fn tokenize(text: &str) -> Vec<Vec<&str>> {
@@ -78,6 +78,27 @@ impl Obj {
             normals: parse_vn(&raw_obj),
             textures: parse_vt(&raw_obj),
             faces: parse_f(&raw_obj),
+        }
+    }
+    pub fn for_each_polygon(&self, action: fn(Vertex, Vertex, Vertex) -> ()) {
+        for (fst, snd, trd) in &self.faces {
+            action(
+                Vertex::new(
+                    &self.vertices[fst.vertex],
+                    &self.normals[fst.normal],
+                    &self.textures[fst.texture],
+                ),
+                Vertex::new(
+                    &self.vertices[snd.vertex],
+                    &self.normals[snd.normal],
+                    &self.textures[snd.texture],
+                ),
+                Vertex::new(
+                    &self.vertices[trd.vertex],
+                    &self.normals[trd.normal],
+                    &self.textures[trd.texture],
+                ),
+            )
         }
     }
 }
