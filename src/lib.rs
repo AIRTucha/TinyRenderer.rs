@@ -34,7 +34,9 @@ pub fn main_js() -> Result<(), JsValue> {
     diamond(100, &mut scene);
     engine.render(&mut scene);
     unsafe {
-        run!(get());
+        run!(get(
+            &"https://api.github.com/repos/rustwasm/wasm-bindgen/branches/master"
+        ));
     }
 
     Ok(())
