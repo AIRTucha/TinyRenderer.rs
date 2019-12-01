@@ -59,6 +59,15 @@ pub struct Indices {
     pub normal: usize,
 }
 
+impl Indices {
+    pub fn new(vertex: usize, texture: usize, normal: usize) -> Indices {
+        Indices {
+            vertex: vertex,
+            texture: texture,
+            normal: normal,
+        }
+    }
+}
 pub struct Vertex {
     pub vertex: Vec3,
     pub normal: Vec3,

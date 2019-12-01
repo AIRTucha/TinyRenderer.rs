@@ -7,7 +7,7 @@ mod run;
 use engine::Engine;
 use engine::Scene;
 use get::get;
-use obj::tokenize;
+use obj::Obj;
 use std::f64;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
@@ -39,8 +39,8 @@ pub fn main_js() -> Result<(), JsValue> {
     diamond(100, &mut scene);
     engine.render(&mut scene);
     run!(async {
-        let resp = get(&"obj/african_head/african_head.obj").await;
-        console::log_1(&JsValue::from(tokenize(resp.as_str())[5][1].to_string()));
+        let resp = Obj::new(&"obj/african_head/african_head.obj").await;
+        console::log_1(&JsValue::from(resp.vertices[0].x.to_string()));
     });
     Ok(())
 }
