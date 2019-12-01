@@ -1,10 +1,13 @@
+mod common;
 mod engine;
 mod get;
+mod obj;
 mod run;
 
 use engine::Engine;
 use engine::Scene;
 use get::get;
+use obj::tokenize;
 use std::f64;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
@@ -37,15 +40,7 @@ pub fn main_js() -> Result<(), JsValue> {
     engine.render(&mut scene);
     run!(async {
         let resp = get(&"obj/african_head/african_head.obj").await;
-        console::log_1(&JsValue::from(
-            resp.as_str()
-                .split("\n")
-                .collect::<Vec<&str>>()
-                .iter()
-                .map(|line| line.split(" ").collect::<Vec<&str>>())
-                .collect::<Vec<Vec<&str>>>()[5][1]
-                .to_string(),
-        ));
+        console::log_1(&JsValue::from(tokenize(resp.as_str())[5][1].to_string()));
     });
     Ok(())
 }
