@@ -1,0 +1,1 @@
+Content of the folder is borrowed from ssloy@github's tinyrenderer course about 3D graphics: github.com/ssloy/tinyrenderer
