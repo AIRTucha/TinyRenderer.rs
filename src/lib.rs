@@ -1,16 +1,18 @@
 mod engine;
-mod obj;
+mod get;
 mod run;
 
 use engine::Engine;
 use engine::Scene;
-use obj::get;
+use get::get;
 use std::f64;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
 use wasm_bindgen::JsCast;
 use web_sys::ImageData;
 use web_sys::*;
+
+use wasm_bindgen::JsValue;
 
 use std::iter::FromIterator;
 #[macro_use]
@@ -33,12 +35,18 @@ pub fn main_js() -> Result<(), JsValue> {
     // }
     diamond(100, &mut scene);
     engine.render(&mut scene);
-    unsafe {
-        run!(get(
-            &"https://api.github.com/repos/rustwasm/wasm-bindgen/branches/master"
+    run!(async {
+        let resp = get(&"obj/african_head/african_head.obj").await;
+        console::log_1(&JsValue::from(
+            resp.as_str()
+                .split("\n")
+                .collect::<Vec<&str>>()
+                .iter()
+                .map(|line| line.split(" ").collect::<Vec<&str>>())
+                .collect::<Vec<Vec<&str>>>()[5][1]
+                .to_string(),
         ));
-    }
-
+    });
     Ok(())
 }
 
