@@ -1,23 +1,21 @@
 mod common;
 mod engine;
 mod get;
+mod matrix;
 mod obj;
+mod pipeline;
 mod run;
+mod texture;
 
+use crate::pipeline::{Pipeline, Renderer};
 use engine::Engine;
-use engine::Scene;
-use get::get;
 use obj::Obj;
-use std::f64;
 use wasm_bindgen::prelude::*;
-use wasm_bindgen::Clamped;
-use wasm_bindgen::JsCast;
-use web_sys::ImageData;
-use web_sys::*;
 
 use wasm_bindgen::JsValue;
 
 use std::iter::FromIterator;
+
 #[macro_use]
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
 // allocator.
@@ -30,49 +28,21 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 // This is like the `main` function, except for JavaScript.
 #[wasm_bindgen(start)]
 pub fn main_js() -> Result<(), JsValue> {
-    let engine = Engine::new("canvas");
-    let mut scene = Scene::new(100, 100);
-    scene.clear();
-    // for x in 5..50 {
-    //     scene.dot(x, 50, 0.0, 255, 0, 0, 255)
-    // }
-    diamond(100, &mut scene);
-    engine.render(&mut scene);
     run!(async {
-        let resp = Obj::new(&"obj/african_head/african_head.obj").await;
-        resp.for_each_polygon(|ver1, ver2, ver3| {
-            console::log_1(&JsValue::from(ver1.vertex.x.to_string()))
-        })
+        let engine = Engine::new("canvas");
+        let mut scene = engine.create_scene();
+        let obj = Obj::new(
+            &"obj/african_head/african_head.obj",
+            &"diffuse",
+            &"nm",
+            &"spec",
+        )
+        .await;
+
+        let mut render = Renderer {};
+
+        render.draw(&obj, &mut scene);
+        engine.render(&mut scene);
     });
     Ok(())
-}
-
-fn diamond(size: usize, scene: &mut Scene) {
-    for row in 0..size {
-        diamond_row(row, size, scene);
-    }
-}
-
-fn diamond_row(position: usize, size: usize, scene: &mut Scene) {
-    let mut counter = 0;
-    let hsize = size / 2;
-    let index = if hsize >= position {
-        hsize - position
-    } else {
-        position - hsize
-    };
-    loop {
-        if counter == size {
-            break;
-        } else if counter >= index && counter < size - index {
-            scene.dot(counter, position, 0.0, 255, 0, 0, 255);
-        }
-        counter += 1;
-    }
-}
-
-fn draw_figure(figure: Vec<Vec<char>>) {
-    figure.iter().for_each(|row| {
-        println!["{}", String::from_iter(row)];
-    });
 }
