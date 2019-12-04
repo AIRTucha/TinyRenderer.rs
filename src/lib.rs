@@ -1,7 +1,13 @@
+mod common;
 mod engine;
+mod get;
+mod obj;
+mod run;
 
 use engine::Engine;
 use engine::Scene;
+use get::get;
+use obj::Obj;
 use std::f64;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
@@ -10,7 +16,7 @@ use web_sys::ImageData;
 use web_sys::*;
 
 use std::iter::FromIterator;
-
+#[macro_use]
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
 // allocator.
 //
@@ -30,6 +36,12 @@ pub fn main_js() -> Result<(), JsValue> {
     // }
     diamond(100, &mut scene);
     engine.render(&mut scene);
+    run!(async {
+        let resp = Obj::new(&"obj/african_head/african_head.obj").await;
+        resp.for_each_polygon(|ver1, ver2, ver3| {
+            console::log_1(&JsValue::from(ver1.vertex.x.to_string()))
+        })
+    });
     Ok(())
 }
 
