@@ -11,6 +11,10 @@ use crate::pipeline::{Pipeline, Renderer};
 use engine::Engine;
 use obj::Obj;
 use wasm_bindgen::prelude::*;
+use wasm_bindgen::Clamped;
+use wasm_bindgen::JsCast;
+use web_sys::ImageData;
+use web_sys::*;
 
 use wasm_bindgen::JsValue;
 

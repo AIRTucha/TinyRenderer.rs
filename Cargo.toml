@@ -33,7 +33,7 @@ features = [
   'RequestInit',
   'RequestMode',
   'Response',
-  "console",
+  'console',
   'HtmlImageElement',
   'Blob'
 ]
