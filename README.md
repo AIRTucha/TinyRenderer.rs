@@ -1,3 +1,12 @@
+# WASM software 3D renderer
+
+The renderer is based on simple C++ renderer created by ssloy@github for an educational goal.
+
+The project is unfinished, codebase is dirty and clumsy.
+
+## Usage
+
+### Use `cargo generate` to Clone this Template
 ## How to install
 
 ```sh
@@ -40,9 +49,3 @@ npm test -- --safari
 * `webpack.config.js` contains the Webpack configuration. You shouldn't need to change this, unless you have very special needs.
 
 * The `js` folder contains your JavaScript code (`index.js` is used to hook everything into Webpack, you don't need to change it).
-
-* The `src` folder contains your Rust code.
-
-* The `static` folder contains any files that you want copied as-is into the final build. It contains an `index.html` file which loads the `index.js` file.
-
-* The `tests` folder contains your Rust unit tests.
